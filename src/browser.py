@@ -9,10 +9,16 @@ def setup_browser() -> webdriver.Chrome:
     # options.add_argument('--ignore-ssl-errors=yes')
     # options.add_argument('--ignore-certificate-errors')
 
-    driver = webdriver.Remote(
-        command_executor='http://selenium:4444/wd/hub',
-        options=options
-    )
+    driver = None
+    while driver is None:
+        try:
+            # Try connecting to other container until its up/running
+            driver = webdriver.Remote(
+                command_executor='http://selenium:4444/wd/hub',
+                options=options
+            )
+        except:
+            pass
     return driver
 
 
