@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  screenshot:
+    build: src
+  selenium:
+    image: "selenium/standalone-chrome"
+    shm_size: '2gb'
