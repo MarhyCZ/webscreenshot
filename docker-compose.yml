@@ -2,6 +2,8 @@ version: "3.9"
 services:
   screenshot:
     build: src
+    volumes:
+    - /home/user/docker/storage/screenshot:/config
   selenium:
     image: "selenium/standalone-chrome"
     shm_size: '2gb'
