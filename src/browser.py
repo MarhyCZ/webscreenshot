@@ -1,7 +1,8 @@
+import os
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-PAGE_TO_SCREENSHOT = 'https://www.o2.cz/'
+PAGE_TO_SCREENSHOT = os.environ['PAGE_TO_SCREENSHOT']
 
 
 def setup_browser() -> webdriver.Chrome:

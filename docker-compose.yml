@@ -2,8 +2,14 @@ version: "3.9"
 services:
   screenshot:
     build: src
+    environment:
+      - PAGE_TO_SCREENSHOT="https://www.o2.cz/"
+      - ROOT_FOLDER_ID="14wjOlArTsnehIbLcBNKuLh0jMYjOVKGB"
+      - SCREENSHOT_INTERVAL=21600
     volumes:
     - /home/user/docker/storage/screenshot:/config
+    depends_on:
+      - "selenium"
   selenium:
-    image: "selenium/standalone-chrome"
+    image: "selenium/standalone-chrome:latest"
     shm_size: '2gb'

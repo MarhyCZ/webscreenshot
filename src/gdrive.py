@@ -10,7 +10,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly',
           'https://www.googleapis.com/auth/drive.file']
-ROOT_FOLDER_ID = '14wjOlArTsnehIbLcBNKuLh0jMYjOVKGB'
+ROOT_FOLDER_ID = os.environ['ROOT_FOLDER_ID']
 
 
 def load_credentials():

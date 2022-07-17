@@ -1,9 +1,12 @@
 from datetime import datetime
+import os
 import time
 import pytz
 import browser
 import gdrive
 from selenium import webdriver
+
+SCREENSHOT_INTERVAL = int(os.environ['SCREENSHOT_INTERVAL'])
 
 
 def main():
@@ -11,7 +14,8 @@ def main():
     start_time = time.time()
     while True:
         process_screenshot(driver)
-        time.sleep(21600 - (time.time() - start_time) % 21600.00)
+        time.sleep(SCREENSHOT_INTERVAL - (time.time() - start_time) %
+                   SCREENSHOT_INTERVAL)
 
 
 def process_screenshot(driver: webdriver.Chrome):
