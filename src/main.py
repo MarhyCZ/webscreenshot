@@ -10,9 +10,9 @@ SCREENSHOT_INTERVAL = int(os.environ['SCREENSHOT_INTERVAL'])
 
 
 def main():
-    driver = browser.setup_browser()
     start_time = time.time()
     while True:
+        driver = browser.setup_browser()
         process_screenshot(driver)
         time.sleep(SCREENSHOT_INTERVAL - (time.time() - start_time) %
                    SCREENSHOT_INTERVAL)
