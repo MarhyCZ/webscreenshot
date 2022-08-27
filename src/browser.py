@@ -32,8 +32,8 @@ def export_storage_urls(driver: webdriver.Chrome, urls: List[str]):
     for url in urls:
         print(url)
         driver.get(url)
-        cookies.append(driver.get_cookies())
-        local_storage.append(driver.execute_script(
+        cookies.extend(driver.get_cookies())
+        local_storage.extend(driver.execute_script(
             "var ls = window.localStorage, items = {}; "
             "for (var i = 0, k; i < ls.length; ++i) "
             "  items[k = ls.key(i)] = ls.getItem(k); "

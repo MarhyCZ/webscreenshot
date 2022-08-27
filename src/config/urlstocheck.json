@@ -1,15 +1,4 @@
 {
-  "cmpgroup1": [
-    "https://www.o2.cz/",
-    "https://www.theverge.com/",
-    "https://wired.com",
-    "https://nasa.gov",
-    "https://cnet.com",
-    "https://zive.cz",
-    "https://www.datamanie.cz/",
-    "https://t-mobile.cz",
-    "https://vodafone.cz",
-    "https://novinky.cz",
-    "https://vtm.zive.cz"
-  ]
+  "cmpgroup1": ["https://www.o2.cz/", "https://www.datamanie.cz/"],
+  "cmpgroup2": ["https://www.theverge.com/", "https://www.wired.com/"]
 }
