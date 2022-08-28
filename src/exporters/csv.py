@@ -8,7 +8,7 @@ def generate_csv_cookies(cookies: list[dict[str, list]]):
     return generate_file(cookies, headers)
 
 
-def generate_csv_storage(local_storage):
+def generate_csv_storage(local_storage: list[dict[str, list]]):
     headers = ['name', 'value']
     return generate_file(local_storage, headers)
 

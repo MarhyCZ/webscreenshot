@@ -1,5 +1,6 @@
 from __future__ import print_function
 import io
+from json import load
 import os
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
@@ -44,6 +45,26 @@ def upload_basic(filename: str, file: bytes):
     """
     creds = load_credentials()
 
+    try:
+        service = build('drive', 'v3', credentials=creds)
+
+        file_metadata = {'name': filename, 'parents': [ROOT_FOLDER_ID]}
+        media = MediaIoBaseUpload(io.BytesIO(file),
+                                  mimetype='image/png')
+        # pylint: disable=maybe-no-member
+        file = service.files().create(body=file_metadata, media_body=media,
+                                      fields='id').execute()
+        print(F'File ID: {file.get("id")}')
+
+    except HttpError as error:
+        print(F'An error occurred: {error}')
+        file = None
+
+    return file.get('id')
+
+
+def upload_text_file(filename: str, content: str):
+    creds = load_credentials
     try:
         service = build('drive', 'v3', credentials=creds)
 
