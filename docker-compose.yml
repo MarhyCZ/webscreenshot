@@ -6,6 +6,7 @@ services:
       - PAGE_TO_SCREENSHOT=https://www.o2.cz/
       - ROOT_FOLDER_ID=14wjOlArTsnehIbLcBNKuLh0jMYjOVKGB
       - SCREENSHOT_INTERVAL=21600
+      - POSTMARK_TOKEN=XXXXXXX
     volumes:
     - /home/user/docker/storage/screenshot:/config
     depends_on:
