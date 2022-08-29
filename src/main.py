@@ -1,37 +1,46 @@
-from datetime import datetime
-import os
+from datetime import date, datetime
 from pprint import pprint
 import time
 import pytz
 import browser
+from common.config import SCREENSHOT_INTERVAL
+from common.types import Attachment, BrowserStorage
 import exporters.gdrive as gdrive
 import common.urlParser as urlParser
 import exporters.csv as csv
 import exporters.postmark as postmark
 from selenium import webdriver
 
-SCREENSHOT_INTERVAL = int(os.environ['SCREENSHOT_INTERVAL'])
-
 
 def main():
     start_time = time.time()
     while True:
-        driver = browser.setup_browser()
         # process_screenshot(driver)
-        process_storage(driver)
-        driver.quit()
+        process_storage()
         time.sleep(SCREENSHOT_INTERVAL - (time.time() - start_time) %
                    SCREENSHOT_INTERVAL)
 
 
-def process_storage(driver: webdriver.Chrome):
+def process_storage():
     url_groups = urlParser.load_urls()
-
+    storage_groups: list[BrowserStorage] = []
     for group_name, urls in url_groups.items():
-        data = browser.export_storage_urls(driver, urls)
-        cookies = data['cookies']
-        local_storage = data['local_storage']
-        postmark.send_mail(csv.generate_csv_cookies(cookies))
+        driver = browser.setup_browser()
+        storage = browser.export_storage_urls(driver, urls)
+        driver.quit()
+        storage.group_name = group_name
+        storage_groups.append(storage)
+
+    current_date = date.today().strftime("%d-%m-%Y")
+    attachments: list[Attachment] = []
+    for storage in storage_groups:
+        csv_cookies = csv.generate_csv_cookies(storage.cookies)
+        csv_storage = csv.generate_csv_local_storage(storage.local_storage)
+        attachments.append(Attachment(
+            f"{storage.group_name}_cookies_{current_date}.csv", 'text/csv', csv_cookies))
+        attachments.append(Attachment(
+            f"{storage.group_name}_local_storage_{current_date}.csv", 'text/csv', csv_storage))
+    postmark.send_mail(attachments)
 
 
 def process_screenshot(driver: webdriver.Chrome):

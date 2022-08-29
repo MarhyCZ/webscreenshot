@@ -1,10 +1,8 @@
 import os
 import json
-from pprint import pprint
 from typing import Dict, List
 
-
-CONFIG_PATH = os.path.abspath(os.path.dirname(__file__)) + '/config'
+from common.config import CONFIG_PATH
 
 
 def load_urls() -> Dict[str, List[str]]:
@@ -13,5 +11,4 @@ def load_urls() -> Dict[str, List[str]]:
     if os.path.exists(urlspath):
         file = open(urlspath, 'r')
         urls = json.loads(file.read())
-        pprint(urls)
     return urls

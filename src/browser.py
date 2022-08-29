@@ -3,9 +3,9 @@ from pprint import pprint
 from typing import List
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from common.config import PAGE_TO_SCREENSHOT, WEBDRIVER_URL
 
-PAGE_TO_SCREENSHOT = os.environ['PAGE_TO_SCREENSHOT']
-WEBDRIVER_URL = 'http://localhost:4444/wd/hub'
+from common.types import BrowserStorage
 
 
 def setup_browser() -> webdriver.Chrome:
@@ -26,20 +26,23 @@ def setup_browser() -> webdriver.Chrome:
     return driver
 
 
-def export_storage_urls(driver: webdriver.Chrome, urls: List[str]):
-    cookies = []
-    local_storage = []
+def export_storage_urls(driver: webdriver.Chrome, urls: List[str]) -> BrowserStorage:
+    storage = BrowserStorage()
     for url in urls:
         print(url)
         driver.get(url)
-        cookies.extend(driver.get_cookies())
-        local_storage.extend(driver.execute_script(
-            "var ls = window.localStorage, items = {}; "
+        storage.cookies.extend(driver.get_cookies())
+        storage.local_storage.extend(driver.execute_script(
+            "var ls = window.localStorage, items = []; "
             "for (var i = 0, k; i < ls.length; ++i) "
-            "  items[k = ls.key(i)] = ls.getItem(k); "
+            "items.push({'name': k = ls.key(i), 'value': ls.getItem(k)});"
             "return items; "))
-    data = {'cookies': cookies, 'local_storage': local_storage}
-    return data
+        # Only unique data
+        storage.cookies = [dict(s) for s in set(
+            frozenset(d.items()) for d in storage.cookies)]
+        storage.local_storage = [dict(s) for s in set(
+            frozenset(d.items()) for d in storage.local_storage)]
+    return storage
 
 
 def create_screenshot(driver: webdriver.Chrome) -> bytes:
