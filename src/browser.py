@@ -26,7 +26,8 @@ def setup_browser() -> webdriver.Chrome:
     return driver
 
 
-def export_storage_urls(driver: webdriver.Chrome, urls: List[str]) -> BrowserStorage:
+def export_storage_urls(urls: List[str]) -> BrowserStorage:
+    driver = setup_browser()
     storage = BrowserStorage()
     for url in urls:
         print(url)
@@ -42,6 +43,7 @@ def export_storage_urls(driver: webdriver.Chrome, urls: List[str]) -> BrowserSto
             frozenset(d.items()) for d in storage.cookies)]
         storage.local_storage = [dict(s) for s in set(
             frozenset(d.items()) for d in storage.local_storage)]
+    driver.quit()
     return storage
 
 

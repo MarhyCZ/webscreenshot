@@ -1,12 +1,12 @@
 import base64
 import csv
+import os
 from datetime import date
 from postmarker.core import PostmarkClient
 
-import os
-
+from common.config import POSTMARK_TOKEN
 from common.types import Attachment
-postmark = PostmarkClient(server_token=os.environ['POSTMARK_TOKEN'])
+postmark = PostmarkClient(server_token=POSTMARK_TOKEN)
 
 
 def send_mail(attachments: list[Attachment]):

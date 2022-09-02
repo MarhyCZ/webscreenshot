@@ -25,9 +25,7 @@ def process_storage():
     url_groups = urlParser.load_urls()
     storage_groups: list[BrowserStorage] = []
     for group_name, urls in url_groups.items():
-        driver = browser.setup_browser()
-        storage = browser.export_storage_urls(driver, urls)
-        driver.quit()
+        storage = browser.export_storage_urls(urls)
         storage.group_name = group_name
         storage_groups.append(storage)
 

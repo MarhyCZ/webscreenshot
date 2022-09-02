@@ -4,6 +4,7 @@ import sys
 SCREENSHOT_INTERVAL = int(os.environ['SCREENSHOT_INTERVAL'])
 ROOT_FOLDER_ID = os.environ['ROOT_FOLDER_ID']
 PAGE_TO_SCREENSHOT = os.environ['PAGE_TO_SCREENSHOT']
+POSTMARK_TOKEN = os.environ['POSTMARK_TOKEN']
 
 PROJECT_PATH = os.path.abspath(
     os.path.dirname(sys.modules['__main__'].__file__))
